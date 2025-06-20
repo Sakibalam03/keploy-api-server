@@ -33,6 +33,10 @@ This application demonstrates a full-stack approach to managing employee records
 * **Database:** MySQL is used for storage of employee data.
 * **Frontend:** A single HTML file with vanilla JavaScript provides a user interface to perform CRUD operations via the API.
 
+![alt text][logo1]
+
+[logo1]: https://github.com/Sakibalam03/keploy-api-server/blob/main/Assets/Frontend.png "API Frontend"
+
 ## Database Setup
 
 ### Database Details
@@ -56,6 +60,9 @@ CREATE TABLE employees (
     role ENUM('Employee', 'Manager', 'Admin') NOT NULL
 );
 ````
+![alt text][logo2]
+
+[logo2]: https://github.com/Sakibalam03/keploy-api-server/blob/main/Assets/MySQL-table.png "MySQL Table"
 
 **Table Constraints and Notes:**
 
@@ -107,6 +114,10 @@ pip install Flask mysql-connector-python Flask-CORS
     ```
 
     The server will start, typically on `http://127.0.0.1:5000/`. Keep this terminal window open as long as you want the API to be running.
+
+![alt text][logo3]
+
+[logo3]: https://github.com/Sakibalam03/keploy-api-server/blob/main/Assets/Postman-API-traffic.png "POSTMAN API Traffic"
 
 ### API Endpoints
 
