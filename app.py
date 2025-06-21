@@ -9,7 +9,7 @@ CORS(app)
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root', 
-    'password': 'sakib2003', 
+    'password': 'your-user-password', 
     'database': 'hrms_keploy_db' 
 
 }
