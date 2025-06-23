@@ -19,11 +19,11 @@ class TestEmployeeAPI(unittest.TestCase):
         self.app.testing = True
         self.sample_employee = {
             "id": "EMP001",
-            "emp_name": "John Doe",
+            "emp_name": "Sakib Alam",
             "joining_date": "2024-01-15",
             "project_id": "PROJ001",
             "mobile_no": "1234567890",
-            "email": "john@example.com",
+            "email": "sakib@gmail.com",
             "role": "Employee"
         }
 
@@ -50,7 +50,7 @@ class TestEmployeeAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 409)
 
     def test_add_employee_missing_fields(self):
-        incomplete_data = {"id": "EMP001", "emp_name": "John"}
+        incomplete_data = {"id": "EMP001", "emp_name": "Sakib"}
         
         response = self.app.post('/employees',
                                data=json.dumps(incomplete_data),
@@ -87,8 +87,8 @@ class TestEmployeeAPI(unittest.TestCase):
     @patch('app.execute_query')
     def test_get_all_employees_success(self, mock_execute):
         mock_data = [
-            {"id": "EMP001", "emp_name": "John", "joining_date": "2024-01-15"},
-            {"id": "EMP002", "emp_name": "Jane", "joining_date": "2024-02-01"}
+            {"id": "EMP001", "emp_name": "Sakib", "joining_date": "2024-01-15"},
+            {"id": "EMP002", "emp_name": "Sreyas", "joining_date": "2024-02-01"}
         ]
         mock_execute.return_value = (True, mock_data)
         
@@ -108,7 +108,7 @@ class TestEmployeeAPI(unittest.TestCase):
 
     @patch('app.execute_query')
     def test_get_employee_by_id_success(self, mock_execute):
-        mock_data = {"id": "EMP001", "emp_name": "John", "joining_date": "2024-01-15"}
+        mock_data = {"id": "EMP001", "emp_name": "Sakib", "joining_date": "2024-01-15"}
         mock_execute.return_value = (True, mock_data)
         
         response = self.app.get('/employees/EMP001')
