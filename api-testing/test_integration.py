@@ -10,7 +10,7 @@ class TestEmployeeIntegration(unittest.TestCase):
         cls.db_config = {
             'host': 'localhost',
             'user': 'root',
-            'password': 'sakib2003',
+            'password': 'your-user-password',
             'database': 'hrms_keploy_db'
         }
         
@@ -33,7 +33,7 @@ class TestEmployeeIntegration(unittest.TestCase):
             "joining_date": "2024-01-15",
             "project_id": "PROJ_TEST",
             "mobile_no": "9999999999",
-            "email": "test@example.com",
+            "email": "sakib@gmail.com",
             "role": "Employee"
         }
         
@@ -83,7 +83,7 @@ class TestEmployeeIntegration(unittest.TestCase):
         db_employee = self.get_employee_from_db("TEST001")
         self.assertIsNotNone(db_employee)
         self.assertEqual(db_employee["emp_name"], "Test Employee")
-        self.assertEqual(db_employee["email"], "test@example.com")
+        self.assertEqual(db_employee["email"], "sakib@gmail.com")
         self.assertEqual(db_employee["role"], "Employee")
     
     def test_create_duplicate_employee_integration(self):
@@ -127,7 +127,7 @@ class TestEmployeeIntegration(unittest.TestCase):
         employee = json.loads(response.data)
         self.assertEqual(employee["id"], "TEST001")
         self.assertEqual(employee["emp_name"], "Test Employee")
-        self.assertEqual(employee["email"], "test@example.com")
+        self.assertEqual(employee["email"], "sakib@gmail.com")
     
     def test_get_nonexistent_employee_integration(self):
         response = self.app.get('/employees/NONEXISTENT')
@@ -146,7 +146,7 @@ class TestEmployeeIntegration(unittest.TestCase):
         
         update_data = {
             "emp_name": "Updated Test Employee",
-            "email": "updated@example.com",
+            "email": "sreyasjj@sakib.com",
             "role": "Manager"
         }
         
@@ -162,7 +162,7 @@ class TestEmployeeIntegration(unittest.TestCase):
         db_employee = self.get_employee_from_db("TEST_UPDATE")
         self.assertIsNotNone(db_employee)
         self.assertEqual(db_employee["emp_name"], "Updated Test Employee")
-        self.assertEqual(db_employee["email"], "updated@example.com")
+        self.assertEqual(db_employee["email"], "sreyasjj@gmail.com")
         self.assertEqual(db_employee["role"], "Manager")
     
     def test_update_partial_employee_integration(self):
@@ -184,7 +184,7 @@ class TestEmployeeIntegration(unittest.TestCase):
         
         db_employee = self.get_employee_from_db("TEST002")
         self.assertEqual(db_employee["emp_name"], "Partially Updated")
-        self.assertEqual(db_employee["email"], "test@example.com")  # Should remain same
+        self.assertEqual(db_employee["email"], "sakib@gmail.com")  # Should remain same
 
     def test_delete_employee_integration(self):
         test_employee = self.test_employee.copy()
