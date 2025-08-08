@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Start backend
+        run: |
+          nohup python app.py &
+          sleep 5
+
+      - name: Install Keploy CLI
+        run: |
+          curl --silent -L https://keploy.io/ent/install.sh | bash
+
+      - name: Run Keploy Test Suite
+        run: |
+          export KEPLOY_API_KEY=v7gjai92BHTwJOvhgQ== && keploy test-suite --app=9720749b-77ae-4586-81bb-31bf674df787 --base-path http://127.0.0.1:5000/employees --cloud
+          keploy test-suite \
+            --app=a37f7f22-ff89-4b8c-9b53-54254aa4db6b \
+            --base-path http://127.0.0.1:5000/employees \
+            --cloud
