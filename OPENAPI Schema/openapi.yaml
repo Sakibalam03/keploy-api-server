@@ -1,0 +1,281 @@
+openapi: 3.0.2
+info:
+  title: Employee Management API
+  version: v1
+  description: API for managing employee records in the HRMS system.
+servers:
+  - url: http://localhost:5000
+paths:
+  /employees:
+    post:
+      summary: Add a new employee
+      operationId: add_employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Employee created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '400':
+          description: Invalid input or missing fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '409':
+          description: Duplicate Employee ID or Email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Failed to add employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+    get:
+      summary: Get all employees
+      operationId: get_all_employees
+      responses:
+        '200':
+          description: List of all employees
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmployeeResponse'
+        '500':
+          description: Error retrieving employees
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+  /employees/{employee_id}:
+    parameters:
+      - name: employee_id
+        in: path
+        required: true
+        description: Unique Employee ID
+        schema:
+          type: string
+          example: EMP001
+    get:
+      summary: Get specific employee details by ID
+      operationId: get_employee_by_id
+      responses:
+        '200':
+          description: Specific employee details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeResponse'
+        '404':
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Error retrieving employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+    put:
+      summary: Update an existing employee's details
+      operationId: update_employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeUpdate'
+      responses:
+        '200':
+          description: Employee updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '400':
+          description: Invalid input or no fields provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '409':
+          description: Duplicate Email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Error updating employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+    delete:
+      summary: Delete an employee by ID
+      operationId: delete_employee
+      responses:
+        '200':
+          description: Employee deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Error deleting employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+
+components:
+  schemas:
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A descriptive message
+          example: Employee added successfully
+        id:
+          type: string
+          description: Optional ID related to the message
+          nullable: true
+          example: EMP001
+    Employee:
+      type: object
+      required:
+        - id
+        - emp_name
+        - joining_date
+        - mobile_no
+        - email
+        - role
+      properties:
+        id:
+          type: string
+          description: Unique Employee ID (e.g., EMP001)
+          example: EMP001
+        emp_name:
+          type: string
+          description: Employee's Full Name
+          example: John Doe
+        joining_date:
+          type: string
+          format: date
+          description: Date of joining (YYYY-MM-DD)
+          example: "2023-01-15"
+        project_id:
+          type: string
+          description: Project ID (Optional)
+          nullable: true
+          example: PROJ101
+        mobile_no:
+          type: string
+          description: Employee's Mobile Number
+          example: "1234567890"
+        email:
+          type: string
+          format: email
+          description: Employee's Email Address (Must be unique)
+          example: john.doe@example.com
+        role:
+          type: string
+          description: Employee's Role
+          enum:
+            - Employee
+            - Manager
+            - Admin
+          example: Employee
+    EmployeeResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique Employee ID
+          readOnly: true
+          example: EMP001
+        emp_name:
+          type: string
+          description: Employee's Full Name
+          readOnly: true
+          example: John Doe
+        joining_date:
+          type: string
+          format: date
+          description: Date of joining (YYYY-MM-DD)
+          readOnly: true
+          example: "2023-01-15"
+        project_id:
+          type: string
+          description: Project ID (Optional)
+          nullable: true
+          readOnly: true
+          example: PROJ101
+        mobile_no:
+          type: string
+          description: Employee's Mobile Number
+          readOnly: true
+          example: "1234567890"
+        email:
+          type: string
+          format: email
+          description: Employee's Email Address
+          readOnly: true
+          example: john.doe@example.com
+        role:
+          type: string
+          description: Employee's Role
+          enum:
+            - Employee
+            - Manager
+            - Admin
+          readOnly: true
+          example: Employee
+    EmployeeUpdate:
+      type: object
+      properties:
+        emp_name:
+          type: string
+          description: Employee's Full Name
+          example: Johnathan Doe
+        joining_date:
+          type: string
+          format: date
+          description: Date of joining (YYYY-MM-DD)
+          example: "2024-03-01"
+        project_id:
+          type: string
+          description: Project ID (Optional, set to null to clear)
+          nullable: true
+          example: PROJ102
+        mobile_no:
+          type: string
+          description: Employee's Mobile Number
+          example: "0987654321"
+        email:
+          type: string
+          format: email
+          description: Employee's Email Address (Must be unique)
+          example: john.updated@example.com
+        role:
+          type: string
+          description: Employee's Role
+          enum:
+            - Employee
+            - Manager
+            - Admin
+          example: Manager
